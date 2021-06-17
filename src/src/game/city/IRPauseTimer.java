@@ -1,6 +1,6 @@
 package game.city;
 
-import game.gameController.timer.IPauseTimer;
+import game.gameControl.timer.IPauseTimer;
 
 public interface IRPauseTimer {
     void connect(IPauseTimer timerControl);

@@ -1,6 +1,6 @@
 package game.gameBuilder;
 
-import game.gameController.IConnectComponents;
+import game.gameControl.IConnectComponents;
 
 public interface IRConnectComponents {
     void connect(IConnectComponents game);

@@ -67,7 +67,7 @@ Interfaces associadas a esse componente:
 Interface que conecta a interface IConnectComponents à classe Builder.
 
 ~~~java
-import game.gameController.IConnectComponents;
+import game.gameControl.IConnectComponents;
 
 public interface IRConnectComponents {
     void connect(IConnectComponents game);
@@ -79,24 +79,24 @@ Método | Objetivo
 `connect` | Conecta o parâmetro "game" da classe Builder à interface IConnectComponents.
 
 
-## Componente `GameController`
+## Componente `GameControl`
 
 > <Esse componente é responsável por controlar as ações e o fluxo do jogo, contém o Timer e o KeyboardListener.>
 
-![Componente](assets/componente-gamecontroller.png)
+![Componente](assets/componente-gamecontrol.png)
 
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `game.gameController`
+Classe | `game.gameControl`
 Autores | `Lucas e Leonardo`
-Interfaces | `IConnectComponents` <br>
+Interfaces | `IConnectComponents` <br> `IPauseTimer` <br> `IRMove`
 
 ### Interfaces
 
 Interfaces associadas a esse componente:
 
-![Diagrama Interfaces](assets/interfaces-gamecontroller.png)
+![Diagrama Interfaces](assets/interfaces-gamecontrol.png)
 
 ## Detalhamento das Interfaces
 
@@ -114,6 +114,22 @@ Método | Objetivo
 -------| --------
 `connectComponents` | conecta os ponteiros recebidos pelos parâmetros às variáveis de Game.
 
+### Interface `IPauseTimer`
+
+Interface que contém o método que é responsável por pausar a execução do Timer.
+
+~~~java
+public interface IPauseTimer {
+    void pauseTimer();
+    void resumeTimer();
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`pauseTimer` | pausa a execução do timer.
+`resumeTimer` | volta a execução do timer.
+
 
 ## Componente `City`
 
@@ -126,7 +142,7 @@ item | detalhamento
 ----- | -----
 Classe | `game.city`
 Autores | `Lucas e Leonardo`
-Interfaces | `IRPauseTimer` <br> `IActionListener` <br> `IRUpdateBar` <br> `IRUpdateView` <br> `IActionPanel` 
+Interfaces | `IRPauseTimer` <br> `IRUpdateBar` <br> `IRUpdateView` <br> `IActionPanel` 
 
 ### Interfaces
 
@@ -171,21 +187,6 @@ public interface IRUpdateBar {
 Método | Objetivo
 -------| --------
 `connect` | Conecta a interface IUpdateBar à variavel barControl de City.
-
-
-### Interface `ActionListener`
-
-Contém o método que permite que o Timer avise City a cada tick que ocorre.
-
-~~~java
-public interface ActionListener {
-    void actionPerformed(ActionEvent timerEvent);
-}
-~~~
-
-Método | Objetivo
--------| --------
-`actionPerformed` | Método que executa uma ação quando recebe o evento do tick do Timer.
 
 
 ### Interface `IActionPanel`

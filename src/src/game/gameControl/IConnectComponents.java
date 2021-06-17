@@ -1,4 +1,4 @@
-package game.gameController;
+package game.gameControl;
 
 import game.city.City;
 import game.mayor.Mayor;
