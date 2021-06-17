@@ -5,7 +5,9 @@ import game.gameControl.IPauseTimer;
 import game.view.IUpdateBar;
 import game.view.institutionview.IUpdateView;
 
-public class InstitutionControl {
+import java.awt.event.ActionEvent;
+
+public class InstitutionControl implements IInstitutionControl{
     IPauseTimer timerControl;
     IUpdateBar barControl;
     IUpdateView viewUpdate;
@@ -18,4 +20,29 @@ public class InstitutionControl {
     public void connect(IUpdateParameters cityParameters){
         this.cityParameters = cityParameters;
     }
+
+    public void invest(int quantity) {
+
+    }
+
+    public void limitOccupation(double percentage) {
+
+    }
+
+    public void stopAgglomeration() {
+
+    }
+
+    public void setAgglomeration(boolean isAgglomerating) {
+
+    }
+
+    public void setPanelParameter(char parameter, double bar, int number) {
+
+    }
+
+    public void update(){
+
+    }
+
 }

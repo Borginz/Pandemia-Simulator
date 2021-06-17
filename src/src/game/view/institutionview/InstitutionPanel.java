@@ -1,4 +1,11 @@
 package game.view.institutionview;
 
-public class InstitutionPanel {
+import game.city.institution.IActionPanel;
+
+public class InstitutionPanel implements IRActionPanel{
+    IActionPanel actionPanel;
+
+    public void connect(IActionPanel actionPanel) {
+        this.actionPanel = actionPanel;
+    }
 }
