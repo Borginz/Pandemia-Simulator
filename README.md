@@ -284,7 +284,7 @@ Interfaces associadas a esse componente:
 Interface que contém os métodos que permitem que o prefeito se mova ou execute um comando.
 
 ~~~java
-public interface ITableProducer {
+public interface IMove {
     void move(char command);
 }
 ~~~
@@ -299,7 +299,7 @@ Método | Objetivo
 Interface que conecta a interface IMayorAction à classe Mayor, para permitir que Mayor execute ações no View.
 
 ~~~java
-public interface ITableProducer {
+public interface IRMayorAction {
     void connect(IMayorAction viewAction);
 }
 ~~~
@@ -363,7 +363,7 @@ Método | Objetivo
 Interface que disponibiliza as ações que o Mayor pode fazer no View.
 
 ~~~java
-public interface IUpdateBar {
+public interface IMayorAction {
     void openPanel();
     void move(int x, int y);
 }
@@ -380,7 +380,7 @@ Método | Objetivo
 Interface que disponibiliza os métodos de atualização dos parâmetros de cada InstitutionView para que os detalhes se atualizem.
 
 ~~~java
-public interface IUpdateBar {
+public interface IUpdateView {
     void setAgglomeration(boolean isAgglomerating);
     void setPanelParameter(char parameter, double bar, int number);
 }
