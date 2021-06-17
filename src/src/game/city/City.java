@@ -1,9 +1,9 @@
 package game.city;
 
-import game.city.institution.InstitutionControl;
+import game.city.institution.InstitutionController;
 
 public class City {
-    InstitutionControl[][] board;
+    InstitutionController[][] board;
     int population;
     int deaths;
     int immunized;
