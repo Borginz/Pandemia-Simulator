@@ -32,7 +32,7 @@ economicamente ou que este não seja destituído por uma aprovação baixa.
 
 ![Diagrama Componentes](assets/arquitetura.png)
 
-> <Para a estruturação e o desenvolvimento do jogo, decidiu-se usar uma modificação do estilo arquitetural Model View Controller, em que temos uma componente que controla toda a parte de visualização do projeto, para que seja facilmente adaptada depois, e outra componente que controla os parâmetros e ações dos atores.>
+> Para a estruturação e o desenvolvimento do jogo, decidiu-se usar uma modificação do estilo arquitetural Model View Controller, em que temos uma componente que controla toda a parte de visualização do projeto, para que seja facilmente adaptada depois, e outra componente que controla os parâmetros e ações dos atores.
 
 ## Diagrama Geral de Componentes
 
