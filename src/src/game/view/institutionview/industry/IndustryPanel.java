@@ -1,4 +1,10 @@
 package game.view.institutionview.industry;
 
-public class IndustryPanel {
-}
+import game.view.institutionview.InstitutionPanel;
+
+public class IndustryPanel extends InstitutionPanel {
+        public IndustryPanel(){
+            super();
+        }
+    }
+
