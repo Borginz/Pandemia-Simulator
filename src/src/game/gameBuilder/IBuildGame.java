@@ -3,5 +3,5 @@ package game.gameBuilder;
 import game.gameControl.IPauseTimer;
 
 public interface IBuildGame {
-    void buildGame();
+    void buildGame(String directory);
 }

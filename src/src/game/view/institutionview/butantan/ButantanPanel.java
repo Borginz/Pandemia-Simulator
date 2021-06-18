@@ -1,4 +1,9 @@
 package game.view.institutionview.butantan;
 
-public class ButantanPanel {
+import game.view.institutionview.InstitutionPanel;
+
+public class ButantanPanel extends InstitutionPanel {
+    public ButantanPanel(){
+        super();
+    }
 }

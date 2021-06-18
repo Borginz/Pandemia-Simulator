@@ -5,4 +5,5 @@ public interface IUpdateParameters {
     void updateApproval(double multiplier);
     void updateInfected(int quantityDelta);
     void updateImmunized(int quantityDelta);
+    void updateDeaths(int quantityDelta);
 }

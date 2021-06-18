@@ -1,4 +1,9 @@
 package game.view.institutionview.hospital;
 
-public class HospitalPanel {
+import game.view.institutionview.InstitutionPanel;
+
+public class HospitalPanel extends InstitutionPanel {
+    public HospitalPanel(){
+        super();
+    }
 }

@@ -2,5 +2,5 @@ package game.view;
 
 public interface IMayorAction {
     void openPanel();
-    void move(int x, int y);
+    void moveMayor(int x, int y);
 }

@@ -1,4 +1,9 @@
 package game.view.institutionview.shop;
 
-public class ShopPanel {
+import game.view.institutionview.InstitutionPanel;
+
+public class ShopPanel extends InstitutionPanel {
+    public ShopPanel(){
+        super();
+    }
 }

@@ -5,10 +5,11 @@ import game.mayor.Mayor;
 import game.view.View;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
 
 public class Game implements IGame{
     Timer timer;
+    Keyboard keyboard;
     City city;
     Mayor mayor;
     View view;
@@ -25,14 +26,20 @@ public class Game implements IGame{
 
     public void runGame(){
         timer = new Timer(1000, city);
+
+        view.createView();
+
+        keyboard = new Keyboard(mayor);
         resumeTimer();
     }
 
     public void pauseTimer() {
         timer.stop();
+        keyboard.stop();
     }
 
     public void resumeTimer() {
         timer.start();
+        keyboard.start();
     }
 }

@@ -8,10 +8,12 @@ import game.view.institutionview.IUpdateView;
 import java.awt.event.ActionEvent;
 
 public class InstitutionControl implements IInstitutionControl{
-    IPauseTimer timerControl;
-    IUpdateBar barControl;
     IUpdateView viewUpdate;
     IUpdateParameters cityParameters;
+
+    public InstitutionControl(){
+
+    }
 
     public void connect(IUpdateView viewUpdate){
         this.viewUpdate = viewUpdate;
