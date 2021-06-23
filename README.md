@@ -52,7 +52,7 @@ item | detalhamento
 ----- | -----
 Pacote | `game.gameBuilder`
 Autores | `Lucas e Leonardo`
-Interfaces | `IRConnectComponents`
+Interfaces | `IRConnectComponents` <br> `IBuildGame` <br> `IBuilder`
 
 ### Interfaces
 
@@ -60,7 +60,30 @@ Interfaces associadas a esse componente:
 
 ![Diagrama Interfaces](assets/interfaces-gamebuilder.png)
 
+Interface agregadora do componente em Java:
+
+~~~java
+public interface IBuilder extends IBuildGame, IRConnectComponents{
+}
+~~~
+
 ## Detalhamento das Interfaces
+
+
+### Interface `IBuildGame`
+
+Interface que permite acesso ao método buildGame para montagem do jogo.
+
+~~~java
+public interface IBuildGame {
+    void buildGame(String directory);
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`buildGame` | Permite a montagem do jogo de acordo com o diretório dado.
+
 
 ### Interface `IRConnectComponents`
 
@@ -90,7 +113,7 @@ item | detalhamento
 ----- | -----
 Classe | `game.gameControl`
 Autores | `Lucas e Leonardo`
-Interfaces | `IConnectComponents` <br> `IPauseTimer` <br> `IRMove`
+Interfaces | `IConnectComponents` <br> `IPauseTimer` <br> `IRunGame` <br> `IGameApp` <br> `IGame`
 
 ### Interfaces
 
@@ -98,21 +121,15 @@ Interfaces associadas a esse componente:
 
 ![Diagrama Interfaces](assets/interfaces-gamecontrol.png)
 
-## Detalhamento das Interfaces
-
-### Interface `IConnectComponents`
-
-Interface que provém o método necessário para ligar os componentes criados pelo Builder às variáveis que estão em Game.
+Interface agregadora do componente em Java:
 
 ~~~java
-public interface IConnectComponents {
-    void connectComponents(City city, Mayor mayor, View view);
+public interface IGame extends IRunGame, IConnectComponents, IPauseTimer, IGameApp{
 }
 ~~~
 
-Método | Objetivo
--------| --------
-`connectComponents` | conecta os ponteiros recebidos pelos parâmetros às variáveis de Game.
+## Detalhamento das Interfaces
+
 
 ### Interface `IPauseTimer`
 
@@ -131,6 +148,45 @@ Método | Objetivo
 `resumeTimer` | volta a execução do timer.
 
 
+### Interface `IConnectComponents`
+
+Interface que provém o método necessário para ligar os componentes criados pelo Builder às variáveis que estão em Game.
+
+~~~java
+public interface IConnectComponents {
+    void connectComponents(City city, View view);
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`connectComponents` | conecta os ponteiros recebidos pelos parâmetros às variáveis de Game.
+
+
+### Interface `IRunGame`
+
+Interface que contém o método que é responsável por executar o jogo.
+
+~~~java
+public interface IRunGame {
+    void runGame();
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`runGame` | executa o jogo.
+
+
+### Interface `IGameApp`
+
+Interface agregadora que contém os métodos necessários pela Main para execução e conexão do jogo.
+
+~~~java
+public interface IGameApp extends IRunGame, IConnectComponents{
+}
+~~~
+
 ## Componente `City`
 
 > <Esse componente é responsavel por guarda o tabuleiro do jogo, contém os controllers de cada instituição.>
@@ -142,7 +198,7 @@ item | detalhamento
 ----- | -----
 Classe | `game.city`
 Autores | `Lucas e Leonardo`
-Interfaces | `IRPauseTimer` <br> `IRUpdateBar` <br> `IRUpdateView` <br> `IActionPanel` 
+Interfaces | `IUpdateParameters` <br> `IRUpdateParameters` <br> `IRUpdateBar` <br> `IRUpdateView` <br> `IActionPanel` 
 
 ### Interfaces
 
@@ -153,25 +209,34 @@ Interfaces associadas a esse componente:
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IRCityControl extends IRPauseTimer, IRUpdateBar {
+public interface ICity extends IRUpdateBar, IUpdateParameters {
 }
 ~~~
 
 ## Detalhamento das Interfaces
 
-### Interface `IRPauseTimer`
 
-Interface que conecta a classe City à interface IPauseTimer para que City consiga pausar a execução do jogo.
+### Interface `IUpdateParameters`
+
+Contém os métodos de atualização dos parâmetros de City.
 
 ~~~java
-public interface IRPauseTimer {
-    void connect(IPauseTimer timerControl);
+public interface IUpdateParameters {
+    void updateMoney(int quantityDelta);
+    void updateApproval(int quantityDelta);
+    void updateInfected(int quantityDelta);
+    void updateImmunized(int quantityDelta);
+    void updateDeaths(int quantityDelta);
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`connect` | Conecta a interface IPauseTimer à variavel timerControl de City.
+`updateMoney` | Método que permite a atualização do parâmetro Money de City pelo InstitutionView.
+`updateApproval` | Método que permite a atualização do parâmetro Approval de City pelo InstitutionView.
+`updateInfected` | Método que permite a atualização do parâmetro Infected de City pelo InstitutionView.
+`updateImmunized` | Método que permite a atualização do parâmetro Immunized de City pelo InstitutionView.
+`updateDeaths` | Método que permite a atualização do parâmetro Deaths de City pelo InstitutionView.
 
 
 ### Interface `IRUpdateBar`
@@ -196,8 +261,9 @@ Contém ações que o usuário pode fazer através do painel de cada instituiç�
 ~~~java
 public interface IActionPanel {
     void invest(int quantity);
-    void limitOccupation(double percentage);
+    void limitOccupation(int percentage);
     void stopAgglomeration();
+    int getParameter(char type);
 }
 ~~~
 
@@ -206,6 +272,7 @@ Método | Objetivo
 `invest` | Investe uma quantidade de dinheiro em uma determinada instituição.
 `limitOccupation` | Limita a ocupação de uma determinada instituição.
 `stopAgglomeration` | Intervém em alguma aglomeração que pode estar ocorrendo no local, para não aumentar a taxa de infecção.
+`getParameter` | Obtém os dados de um certo parâmetro contido em alguma instituição.
 
 
 ### Interface `IRUpdateView`
@@ -223,27 +290,6 @@ Método | Objetivo
 `connect` | Método que conecta a interface IUpdateView à variável viewUpdate de InstitutionView.
 
 
-### Interface `IUpdateParameters`
-
-Contém os métodos de atualização dos parâmetros de City.
-
-~~~java
-public interface IUpdateParameters {
-    void updateMoney(int quantityDelta);
-    void updateApproval(double multiplier);
-    void updateInfected(int quantityDelta);
-    void updateImmunized(int quantityDelta);
-}
-~~~
-
-Método | Objetivo
--------| --------
-`updateMoney` | Método que permite a atualização do parâmetro Money de City pelo InstitutionView.
-`updateApproval` | Método que permite a atualização do parâmetro Approval de City pelo InstitutionView.
-`updateInfected` | Método que permite a atualização do parâmetro Infected de City pelo InstitutionView.
-`updateImmunized` | Método que permite a atualização do parâmetro Immunized de City pelo InstitutionView.
-
-
 ### Interface `IRUpdateParameters`
 
 Interface que conecta a interface IUpdateParameters à classe InstitutionView, para permitir o acesso aos métodos de atualização de parâmetros da City.
@@ -258,56 +304,14 @@ Método | Objetivo
 -------| --------
 `connect` | Método que conecta a interface IUpdateParameters à variável cityParameters de InstitutionView.
 
+### Interface `IInstitutionControl`
 
-## Componente `Mayor`
-
-> <Esse componente é responsavel por guardar tudo o que interessa do nosso ator principal, é estudado a parte.>
-
-![Componente](assets/componente-mayor.png)
-
-**Ficha Técnica**
-item | detalhamento
------ | -----
-Classe | `game.mayor`
-Autores | `Lucas e Leonardo`
-Interfaces | `IRMayorAction` <br> `IMove` <br> 
-
-### Interfaces
-
-Interfaces associadas a esse componente:
-
-![Diagrama Interfaces](assets/interfaces-mayor.png)
-
-## Detalhamento das Interfaces
-
-### Interface `IMove`
-
-Interface que contém os métodos que permitem que o prefeito se mova ou execute um comando.
+Interface agregadora de Institution Control, que agrega as interfaces necessárias.
 
 ~~~java
-public interface IMove {
-    void move(char command);
+public interface IInstitutionControl extends IRUpdateParameters, IRUpdateView, IActionPanel{
 }
 ~~~
-
-Método | Objetivo
--------| --------
-`move` | Executa um comando no Mayor, seja para se movimentar, seja para abrir um painel.
-
-
-### Interface `IRMayorAction`
-
-Interface que conecta a interface IMayorAction à classe Mayor, para permitir que Mayor execute ações no View.
-
-~~~java
-public interface IRMayorAction {
-    void connect(IMayorAction viewAction);
-}
-~~~
-
-Método | Objetivo
--------| --------
-`connect` | Conecta a interface IMayorAction à variável viewAction da classe Mayor.
 
 
 ## Componente `View`
@@ -321,7 +325,7 @@ item | detalhamento
 ----- | -----
 Classe | `game.view`
 Autores | `Lucas e Leonardo`
-Interfaces | `IUpdateBar` <br> `IUpdateView` <br> `IRActionPanel` <br> `IMayorAction` 
+Interfaces | `IUpdateBar` <br> `IUpdateView` <br> `IRPauseTimer` <br> `IRActionPanel` <br> `IKeyboard` 
 
 ### Interfaces
 
@@ -332,11 +336,12 @@ Interfaces associadas a esse componente:
 Interface agregadora do componente em Java:
 
 ~~~java
-public interface IUpdateAndAction extends IUpdateBar, IMayorAction {
+public interface IView extends IKeyboard, IUpdateBar{
 }
 ~~~
 
 ## Detalhamento das Interfaces
+
 
 ### Interface `IUpdateBar`
 
@@ -345,7 +350,8 @@ Interface que disponibiliza os métodos de atualização dos parâmetros de View
 ~~~java
 public interface IUpdateBar {
     void setMoney(int quantity);
-    void setApproval(double percentage);
+    void setApproval(int percentage);
+    void setDeaths(int quantity);
     void setInfected(int quantity);
     void setImmunized(int quantity);
 }
@@ -355,42 +361,39 @@ Método | Objetivo
 -------| --------
 `setMoney` | Configura a variável "money" de View com o valor passado por parâmetro, para atualização.
 `setApproval` | Configura a variável "approval" de View com o valor passado por parâmetro, para atualização.
+`setDeaths` | Configura a variável "deaths" de View com o valor passado por parâmetro, para atualização.
 `setInfected` | Configura a variável "infected" de View com o valor passado por parâmetro, para atualização.
 `setImmunized` | Configura a variável "immunized" de View com o valor passado por parâmetro, para atualização.
 
 
-### Interface `IMayorAction`
+### Interface `IKeyboard`
 
 Interface que disponibiliza as ações que o Mayor pode fazer no View.
 
 ~~~java
-public interface IMayorAction {
-    void openPanel();
-    void move(int x, int y);
+public interface IKeyboard {
+    void keyPress(int key);
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`openPanel` | Solicita a abertura do painel da instituição em que o Mayor está.
-`move` | Passa x e y para MayorView atualizar sua posição na tela.
+`keyPress` | Executa as ações correspondentes à tecla pressionada.
 
 
-### Interface `IUpdateView`
+### Interface `IRPauseTimer`
 
-Interface que disponibiliza os métodos de atualização dos parâmetros de cada InstitutionView para que os detalhes se atualizem.
+Interface que conecta a classe City à interface IPauseTimer para que City consiga pausar a execução do jogo.
 
 ~~~java
-public interface IUpdateView {
-    void setAgglomeration(boolean isAgglomerating);
-    void setPanelParameter(char parameter, double bar, int number);
+public interface IRPauseTimer {
+    void connect(IPauseTimer timerControl);
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`setAgglomeration` | Comunica se a instituição está aglomerando, para que o View mude o ícone mostrado na tela.
-`setPanelParameter` | Configura, para cada parâmetro de cada painel, indicado por um char, o valor da barra e o número mostrado na tela. Se um deles não ser necessário, passa-se "-1" como parâmetro.
+`connect` | Conecta a interface IPauseTimer à variavel timerControl de cada painel.
 
 
 ### Interface `IRActionPanel`
@@ -406,6 +409,31 @@ public interface IRActionPanel {
 Método | Objetivo
 -------| --------
 `connect` | Conecta a interface IActionPanel, implementada pela classe InstitutionController, à classe InstitutionPanel, para que o painel consiga acessar métodos do controle.
+
+
+### Interface `IPanel`
+
+Interface agregadora que junta as interfaces implementadas por cada painel de instituição.
+
+~~~java
+public interface IPanel extends IRActionPanel, IRPauseTimer, WindowListener {
+}
+~~~
+
+
+### Interface `IUpdateView`
+
+Interface que disponibiliza os métodos de atualização dos parâmetros de cada InstitutionView para que os detalhes se atualizem.
+
+~~~java
+public interface IUpdateView {
+    void setAgglomeration(boolean isAgglomerating);
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`setAgglomeration` | Comunica se a instituição está aglomerando, para que o View mude o ícone mostrado na tela.
 
 
 # Plano de Exceções

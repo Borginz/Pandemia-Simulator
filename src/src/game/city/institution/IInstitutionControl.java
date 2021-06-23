@@ -2,5 +2,5 @@ package game.city.institution;
 
 import game.view.institutionview.IUpdateView;
 
-public interface IInstitutionControl extends IRUpdateParameters, IUpdateView, IActionPanel{
+public interface IInstitutionControl extends IRUpdateParameters, IRUpdateView, IActionPanel{
 }

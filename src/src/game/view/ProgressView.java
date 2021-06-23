@@ -17,30 +17,32 @@ public class ProgressView extends JPanel {
         infection = new JProgressBar(0,100);
         setInfectionBar(0);
         constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0;
+        constraints.ipady = 30;
         constraints.gridy = 0;
         constraints.gridx = 0;
-        constraints.gridwidth = 3;
+        constraints.gridwidth = 4;
         add(infection, constraints);
 
         population = new JLabel();
+        population.setHorizontalAlignment(JLabel.CENTER);
         setPopulation(0);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
         constraints.gridy = 1;
-        constraints.gridx = 0;
+        constraints.gridx = 1;
+        constraints.gridwidth = 1;
         add(population, constraints);
 
         money = new JLabel();
+        money.setHorizontalAlignment(JLabel.CENTER);
         setMoney(0);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridy = 1;
-        constraints.gridx = 1;
+        constraints.gridx = 2;
         add(money, constraints);
 
         deaths = new JLabel();
+        deaths.setHorizontalAlignment(JLabel.CENTER);
         setDeaths(0);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridy = 1;
-        constraints.gridx = 2;
+        constraints.gridx = 3;
         add(deaths, constraints);
 
     }

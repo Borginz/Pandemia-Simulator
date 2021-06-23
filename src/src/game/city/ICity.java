@@ -1,4 +1,4 @@
 package game.city;
 
-public interface ICity extends IRPauseTimer, IRUpdateBar, IUpdateParameters {
+public interface ICity extends IRUpdateBar, IUpdateParameters {
 }

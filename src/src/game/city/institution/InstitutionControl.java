@@ -1,18 +1,23 @@
 package game.city.institution;
 
 import game.city.IUpdateParameters;
-import game.gameControl.IPauseTimer;
-import game.view.IUpdateBar;
 import game.view.institutionview.IUpdateView;
 
-import java.awt.event.ActionEvent;
-
 public class InstitutionControl implements IInstitutionControl{
-    IUpdateView viewUpdate;
-    IUpdateParameters cityParameters;
+    private IUpdateView viewUpdate;
+    private IUpdateParameters cityParameters;
+    private boolean isAgglomerating;
+
+    public IUpdateView getViewUpdate() {
+        return viewUpdate;
+    }
+
+    public IUpdateParameters getCityParameters() {
+        return cityParameters;
+    }
 
     public InstitutionControl(){
-
+        isAgglomerating = false;
     }
 
     public void connect(IUpdateView viewUpdate){
@@ -27,20 +32,17 @@ public class InstitutionControl implements IInstitutionControl{
 
     }
 
-    public void limitOccupation(double percentage) {
+    public void limitOccupation(int percentage) {
 
     }
 
     public void stopAgglomeration() {
-
+        isAgglomerating = false;
+        viewUpdate.setAgglomeration(false);
     }
 
-    public void setAgglomeration(boolean isAgglomerating) {
-
-    }
-
-    public void setPanelParameter(char parameter, double bar, int number) {
-
+    public int getParameter(char type) {
+        return 0;
     }
 
     public void update(){

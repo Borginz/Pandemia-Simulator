@@ -1,17 +1,9 @@
 package game.gameControl;
 
-import game.mayor.IKeyboard;
+import game.view.IKeyboard;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class Keyboard implements KeyListener {
     IKeyboard listener;

@@ -1,14 +1,17 @@
 package game.view;
 
+import game.view.institutionview.InstitutionView;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.Serial;
 import java.lang.Math;
 
-public class View extends JFrame implements IUpdateAndAction {
-    private CityView cityView;
-    private BarView barView;
-    private ProgressView progressView;
+public class View extends JFrame implements IView {
+    private final CityView cityView;
+    private final BarView barView;
+    private final ProgressView progressView;
     private String directory;
     private int population;
 
@@ -24,16 +27,23 @@ public class View extends JFrame implements IUpdateAndAction {
     }
 
     public void visual(){
-        setSize(1024, 600);
+        setSize(1230, 860);
+        setResizable(false);
+        setLocationRelativeTo(null);
 
-        Container principalPanel = getContentPane();
-        principalPanel.setLayout(new BorderLayout());
-
+        JPanel principalPanel = new JPanel();
+        getContentPane().add(principalPanel);
+        principalPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        principalPanel.setLayout(new BorderLayout(15, 15));
         principalPanel.add(barView, BorderLayout.PAGE_END);
         principalPanel.add(cityView, BorderLayout.CENTER);
         principalPanel.add(progressView, BorderLayout.PAGE_START);
 
         setVisible(true);
+    }
+
+    public InstitutionView insert(int x, int y, char type){
+        return cityView.insert(x, y, type);
     }
 
     public void createView(){
@@ -50,12 +60,26 @@ public class View extends JFrame implements IUpdateAndAction {
         return cityView;
     }
 
-    public void openPanel() {
-        cityView.openPanel();
-    }
-
-    public void moveMayor(int x, int y) {
-        cityView.setMayorPos(x, y, cityView.isOccupied(x, y));
+    public void keyPress(int key){
+        switch(key){
+            case(KeyEvent.VK_W):
+                cityView.setMayorPos(0, -1);
+                break;
+            case(KeyEvent.VK_A):
+                cityView.setMayorPos(-1, 0);
+                break;
+            case(KeyEvent.VK_S):
+                cityView.setMayorPos(0, 1);
+                break;
+            case(KeyEvent.VK_D):
+                cityView.setMayorPos(1, 0);
+                break;
+            case(' '):
+                cityView.openPanel();
+                break;
+            default:
+                break;
+        }
     }
 
     public void setPopulation(int quantity) {
@@ -67,8 +91,8 @@ public class View extends JFrame implements IUpdateAndAction {
         progressView.setMoney(quantity);
     }
 
-    public void setApproval(double percentage) {
-        barView.setApprovalBar((int)Math.ceil(percentage * 100));
+    public void setApproval(int percentage) {
+        barView.setApprovalBar(percentage);
     }
 
     public void setDeaths(int quantity) {
@@ -76,11 +100,11 @@ public class View extends JFrame implements IUpdateAndAction {
     }
 
     public void setInfected(int quantity) {
-        progressView.setInfectionBar((quantity/population)*100);
+        progressView.setInfectionBar((int)(((double)quantity/(double)population)*100));
     }
 
     public void setImmunized(int quantity) {
-        barView.setImmunizationBar((quantity/population)*100);
+        barView.setImmunizationBar((int)(((double)quantity/(double)population)*100));
     }
 
 }

@@ -1,4 +1,4 @@
 package game.gameControl;
 
-public interface IGame extends IPauseTimer, IRunGame, IConnectComponents{
+public interface IGame extends IRunGame, IConnectComponents, IPauseTimer, IGameApp{
 }

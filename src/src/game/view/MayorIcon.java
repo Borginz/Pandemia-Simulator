@@ -9,11 +9,11 @@ public class MayorIcon extends JLabel {
     int y;
 
     public MayorIcon(int x, int y, String diretorio){
-        super(diretorio + "sprites/mayor.png");
+        super(new ImageIcon(diretorio + "sprites/mayor.png"));
         this.x = x;
         this.y = y;
-        this.normal = new ImageIcon(diretorio + "sprites/house.png");
-        this.occupied = new ImageIcon(diretorio + "sprites/houseAgglomerating.png");
+        this.normal = new ImageIcon(diretorio + "sprites/mayor.png");
+        this.occupied = new ImageIcon(diretorio + "sprites/mayorOccupied.png");
 
     }
 
@@ -21,16 +21,16 @@ public class MayorIcon extends JLabel {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void moveX(int x) {
+        this.x += x;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void moveY(int y) {
+        this.y += y;
     }
 
     public void setOccupied(boolean status){

@@ -15,7 +15,7 @@ public class HouseIcon extends InstitutionIcon {
 
     }
 
-    public void agglomerating(boolean status){
+    public void setAgglomeration(boolean status){
         if(status){
             this.setIcon(agglomerating);
         } else {

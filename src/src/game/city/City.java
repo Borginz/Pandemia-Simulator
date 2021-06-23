@@ -11,6 +11,7 @@ import game.view.IUpdateBar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class City implements ICity, ActionListener {
@@ -23,20 +24,17 @@ public class City implements ICity, ActionListener {
     int immunized;
     int money;
     int infected;
-    double mayorApprovalPercentage;
+    int mayorApprovalPercentage;
     IUpdateBar barControl;
-    IPauseTimer timerControl;
-
-
 
     public City(){
         population = 10000;
         deaths = 0;
         immunized = 0;
-        money = 100000;
+        money = 100;
         infected = 0;
-        mayorApprovalPercentage = 0.5;
-
+        mayorApprovalPercentage = 50;
+        institutions = new ArrayList<>();
 
     }
 
@@ -62,21 +60,26 @@ public class City implements ICity, ActionListener {
         return(institution);
     }
 
-    public void connect(IPauseTimer timerControl) {
-        this.timerControl = timerControl;
-    }
-
     public void connect(IUpdateBar barControl) {
         this.barControl = barControl;
     }
+
+    public void startUpdate(){
+        barControl.setMoney(money);
+        barControl.setApproval(mayorApprovalPercentage);
+        barControl.setInfected(infected);
+        barControl.setImmunized(immunized);
+        barControl.setDeaths(deaths);
+    }
+
 
     public void updateMoney(int quantityDelta) {
         money += quantityDelta;
         barControl.setMoney(money);
     }
 
-    public void updateApproval(double multiplier) {
-        mayorApprovalPercentage *= multiplier;
+    public void updateApproval(int quantityDelta) {
+        mayorApprovalPercentage += quantityDelta;
         barControl.setApproval(mayorApprovalPercentage);
     }
 
