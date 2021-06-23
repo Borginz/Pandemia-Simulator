@@ -29,7 +29,7 @@ public class Keyboard implements KeyListener {
     @Override
     public void keyPressed(KeyEvent ke) {
         if(started)
-            listener.keyPress(ke.getKeyChar());
+            listener.keyPress(ke.getKeyCode());
     }
 
     @Override
