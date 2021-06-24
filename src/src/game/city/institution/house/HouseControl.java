@@ -1,7 +1,7 @@
 package game.city.institution.house;
 
 import game.city.institution.InstitutionControl;
-
+import java.util.Random;
 public class HouseControl extends InstitutionControl {
     private int timeAgglomerating;
     private boolean isAgglomerating;
