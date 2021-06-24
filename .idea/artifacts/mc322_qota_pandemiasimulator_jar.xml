@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mc322-qota-pandemiasimulator:jar">
+    <output-path>$PROJECT_DIR$/src/bin/artifacts/mc322_qota_pandemiasimulator_jar</output-path>
+    <root id="archive" name="mc322-qota-pandemiasimulator.jar">
+      <element id="module-output" name="mc322-qota-pandemiasimulator" />
+    </root>
+  </artifact>
+</component>

@@ -4,12 +4,14 @@ import game.city.institution.IActionPanel;
 import game.view.institutionview.InstitutionPanel;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.text.NumberFormat;
 
 public class ButantanPanel extends InstitutionPanel {
     IActionPanel actionPanel;
     private JProgressBar vaccineDev; //quantos leitos tão ocupados
-    private JTextField quantityInvested; //quanto dinheiro quer investir
+    private JFormattedTextField quantityInvested; //quanto dinheiro quer investir
     private JButton invest; // investe em mais leitos de acordo com quantityInvested
     private JLabel producedVaccine; // atualiza com a quantidade de leitos total
 
@@ -25,7 +27,17 @@ public class ButantanPanel extends InstitutionPanel {
         principalPanel.setLayout(new GridLayout(0, 2, 15, 15));
         vaccineDev = new JProgressBar();
         vaccineDev.setValue(0);
-        quantityInvested = new JTextField("10", 0);
+
+        NumberFormat format = NumberFormat.getInstance();
+        format.setGroupingUsed(false);
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setAllowsInvalid(false);
+
+        quantityInvested = new JFormattedTextField(formatter);
+        quantityInvested.setValue(10);
+
         producedVaccine = new JLabel();
         invest = new JButton("Investir no desenv.");
         invest.addActionListener(e -> {

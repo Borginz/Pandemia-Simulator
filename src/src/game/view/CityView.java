@@ -49,13 +49,11 @@ public class CityView extends JPanel {
     public void assembleView(){
         setLayout(new OverlayLayout(this));
         cityPanel = new JPanel();
-        cityPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         cityPanel.setOpaque(false);
-        cityPanel.setLayout(new GridLayout(sizeY,sizeX,15,15));
+        cityPanel.setLayout(new GridLayout(sizeY,sizeX));
         mayorPanel = new JPanel();
-        mayorPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         mayorPanel.setOpaque(false);
-        mayorPanel.setLayout(new GridLayout(sizeY,sizeX,15,15));
+        mayorPanel.setLayout(new GridLayout(sizeY,sizeX));
         panelHolder = new JPanel[sizeY][sizeX];
         panelHolderMayor = new JPanel[sizeY][sizeX];
         setBorder(BorderFactory.createTitledBorder("Cidade"));

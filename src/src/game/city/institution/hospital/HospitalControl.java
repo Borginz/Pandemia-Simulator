@@ -14,13 +14,19 @@ public class HospitalControl extends InstitutionControl {
     double deathRate;
     Random random;
 
+    public void setMoneyInvested(int moneyInvested) {
+        this.moneyInvested = moneyInvested;
+        System.out.println(moneyInvested);
+        bedsTotalUpdate();
+    }
+
     public HospitalControl(){
         super();
         bedsOccupied = 0;
-        moneyInvested = 1000;
+        moneyInvested = 500;
         bedPrice = 1;
         chanceDeath = 2;
-        treatmentRate = 0.1;
+        treatmentRate = 0.01;
         deathRate = 0.1;
         bedsTotalUpdate();
         random = new Random();
@@ -65,7 +71,8 @@ public class HospitalControl extends InstitutionControl {
         int number = random.nextInt(100);
         if(number <= chanceDeath){
             getCityParameters().updateDeaths((int)(bedsOccupied*deathRate));
+            bedsOccupied -= (int)(bedsOccupied*deathRate);
         }
-        bedsOccupied -= bedsOccupied/10;
+
     }
 }

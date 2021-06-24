@@ -32,7 +32,7 @@ public class View extends JFrame implements IView {
     }
 
     public void visual(){
-        setSize(1230, 860);
+        setSize(1230, 900);
         setResizable(false);
         setLocationRelativeTo(null);
 

@@ -1,5 +1,6 @@
 package game.gameBuilder;
 
 public interface IBuildGame {
-    void buildGame(String directory);
+    Level[] createLevels(String directory);
+    void buildGame(String directory, Level level);
 }

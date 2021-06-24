@@ -3,7 +3,6 @@ package game.gameBuilder;
 import game.city.*;
 import game.city.institution.*;
 import game.gameControl.IConnectComponents;
-import game.gameControl.IGame;
 import game.gameControl.IPauseTimer;
 import game.view.*;
 import game.view.institutionview.*;
@@ -27,7 +26,42 @@ public class Builder implements IBuilder {
         population = 10000;
     }
 
-    public void buildGame(String directory){
+    public Level[] createLevels(String directory){
+        Level[] levels = new Level[3];
+
+        CSVHandling csv = new CSVHandling();
+        for(int j = 1; j <= 3; j++) {
+            csv.setDataSource(directory + "levels/level" + j + ".csv");
+            String[][] commands = csv.requestCommands();
+            int sizeY = Character.getNumericValue(commands[0][0].charAt(0));
+            int sizeX = Character.getNumericValue(commands[0][0].charAt(2));
+            int population = Integer.parseInt(commands[0][1]);
+            char[][] matrix = new char[sizeY][sizeX];
+
+            for (int i = 1; i <= (sizeX*sizeY); i++) {
+                if(Character.getNumericValue(commands[i][0].charAt(0)) <= sizeY && Character.getNumericValue(commands[i][0].charAt(0)) >= 1 &&
+                        Character.getNumericValue(commands[i][0].charAt(2)) <= sizeX && Character.getNumericValue(commands[i][0].charAt(2)) >= 1) {
+
+                    if(matrix[Character.getNumericValue(commands[i][0].charAt(0))-1][Character.getNumericValue(commands[i][0].charAt(2))-1] == '\u0000'){
+                        matrix[Character.getNumericValue(commands[i][0].charAt(0))-1][Character.getNumericValue(commands[i][0].charAt(2))-1] = commands[i][1].charAt(0);
+                    } else {
+                        //TODO: GERAR ERRO
+                    }
+                }
+            }
+            levels[j-1] = new Level(j, matrix, population, sizeX, sizeY);
+        }
+
+        return levels;
+    }
+
+
+    public void buildGame(String directory, Level level){
+        matrix = level.getMatrix();
+        population = level.getPopulation();
+        sizeX = level.getSizeX();
+        sizeY = level.getSizeY();
+
         int mayorX = 0;
         int mayorY = 0;
         city = new City();
@@ -35,7 +69,6 @@ public class Builder implements IBuilder {
 
         city.connect(view);
         city.setPopulation(population);
-
         view.setPopulation(population);
         city.connect(view.getWarnPanel());
         view.setDirectory(directory);
@@ -65,5 +98,6 @@ public class Builder implements IBuilder {
     public void connect(IConnectComponents game){
         this.game = game;
     }
+
 
 }

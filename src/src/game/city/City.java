@@ -29,24 +29,33 @@ public class City implements ICity, ActionListener {
     int infected;
     int mayorApprovalPercentage;
     int infectedNow;
+    int shopPopulationPercentage;
+    int industryPopulationPercentage;
     IWarningPanel warnPanel;
 
     ArrayList<HospitalControl> hospitals;
+    ArrayList<ShopControl> shops;
+    ArrayList<IndustryControl> industries;
 
     double infectionRate;
 
     IUpdateBar barControl;
 
     public City(){
-        population = initialPopulation = 10000;
+        population = 10000;
+        initialPopulation = 10000;
         deaths = 0;
         immunized = 0;
         money = 100;
         infected = 0;
         mayorApprovalPercentage = 50;
-        infectionRate = 0.00001;
+        infectionRate = 0.008;
+        shopPopulationPercentage = 70;
+        industryPopulationPercentage = 30;
         institutions = new ArrayList<>();
         hospitals = new ArrayList<>();
+        shops = new ArrayList<>();
+        industries = new ArrayList<>();
 
 
     }
@@ -61,14 +70,19 @@ public class City implements ICity, ActionListener {
         switch (id) {
             case ('H'):
                 HospitalControl hospital = new HospitalControl();
+                hospital.setMoneyInvested(population/20);
                 hospitals.add(hospital);
                 institution = hospital;
                 break;
             case ('S'):
-                institution = new ShopControl();
+                ShopControl shop = new ShopControl();
+                shops.add(shop);
+                institution = shop;
                 break;
             case ('I'):
-                institution = new IndustryControl();
+                IndustryControl industry = new IndustryControl();
+                industries.add(industry);
+                institution = industry;
                 break;
             case ('B'):
                 institution = new ButantanControl();
@@ -118,6 +132,7 @@ public class City implements ICity, ActionListener {
             h.hospitalize(quantityDelta/hospitals.size());
         }
         barControl.setInfected(infected);
+        System.out.println(quantityDelta);
     }
 
     public void updateImmunized(int quantityDelta) {
@@ -132,20 +147,20 @@ public class City implements ICity, ActionListener {
         barControl.setPopulation(population);
     }
 
-    public void updatePopulationWorking(int percentage, char type) {
-        if(type == 's') {
-            populationWorkingShop = population * percentage;
-        } else if(type == 'i'){
-            populationWorkingIndustry = population * percentage;
-        }
-    }
-
     public int getPopulationActive() {
-        return populationWorkingShop + populationWorkingIndustry - immunized - infected;
+        int populationActive = -immunized - infected;
+        for(ShopControl s: shops){
+            populationActive += (int)(((((double)(shopPopulationPercentage/shops.size())/100)*(((double)s.getOccupationPercentage()))/100))*population);
+        }
+        for(IndustryControl i: industries){
+            populationActive += (int)(((((double) (industryPopulationPercentage /industries.size()) /100)*(((double)i.getOccupationPercentage()))/100))*population);
+        }
+        return populationActive;
     }
 
     public void setPopulation(int population){
-        this.population = initialPopulation = population;
+        this.population = population;
+        initialPopulation = population;
     }
 
     private void checkWinLose(){
