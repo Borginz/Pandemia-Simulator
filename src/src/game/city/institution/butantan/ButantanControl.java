@@ -11,6 +11,7 @@ public class ButantanControl extends InstitutionControl {
     double vaccinePerMoney;
     double devMoney;
     boolean vaccineDeveloped;
+    double approvalInfluence;
     Random random;
 
     public ButantanControl(){
@@ -20,7 +21,8 @@ public class ButantanControl extends InstitutionControl {
         producedVaccine = 0;
         moneyInvested = 0;
         vaccinePerMoney = 0.1;
-        devMoney = 0.1;
+        devMoney = 0.01;
+        approvalInfluence = 0.02;
         random = new Random();
     }
 
@@ -47,6 +49,7 @@ public class ButantanControl extends InstitutionControl {
         } else {
             producedVaccine += moneyInvested*vaccinePerMoney;
             getCityParameters().updateImmunized((int)(moneyInvested*vaccinePerMoney));
+            getCityParameters().updateApproval((int)((moneyInvested*vaccinePerMoney)*approvalInfluence));
         }
     }
 }

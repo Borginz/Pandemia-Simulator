@@ -36,10 +36,10 @@ public class HouseControl extends InstitutionControl {
             timeAgglomerating++;
 
             if(timeAgglomerating == 3){
-                getCityParameters().updateInfected(10);
+                getCityParameters().updateInfected(100);
             }
             if(timeAgglomerating == 9){
-                getCityParameters().updateDeaths(1);
+                getCityParameters().updateDeaths(30);
                 isAgglomerating = false;
                 timeAgglomerating = 0;
                 getViewUpdate().setAgglomeration(false);
