@@ -4,11 +4,14 @@ import game.city.institution.IActionPanel;
 import game.view.institutionview.InstitutionPanel;
 
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.text.NumberFormat;
 
-public class IndustryPanel extends InstitutionPanel {    IActionPanel actionPanel;
+public class IndustryPanel extends InstitutionPanel{
+    IActionPanel actionPanel;
     private JProgressBar occupation;
-    private JTextField occupationPercentage;
+    private JFormattedTextField occupationPercentage;
     private JButton defineOccupation;
 
     public IndustryPanel(){
@@ -22,10 +25,20 @@ public class IndustryPanel extends InstitutionPanel {    IActionPanel actionPane
         principalPanel.setLayout(new GridLayout(0, 2, 15, 15));
         occupation = new JProgressBar();
         occupation.setValue(0);
-        occupationPercentage = new JTextField("100", 0);
+
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(100);
+        formatter.setAllowsInvalid(false);
+
+        occupationPercentage = new JFormattedTextField(formatter);
+        occupationPercentage.setValue(100);
+
         defineOccupation = new JButton("Limitar ocupação");
         defineOccupation.addActionListener(e -> {
-            actionPanel.limitOccupation(Integer.parseInt(occupationPercentage.getText()));
+            actionPanel.limitOccupation((int)occupationPercentage.getValue());
             updateParameters();
         });
         principalPanel.add(new JLabel("Ocupação:"));
@@ -41,7 +54,5 @@ public class IndustryPanel extends InstitutionPanel {    IActionPanel actionPane
     public void connect(IActionPanel actionPanel) {
         this.actionPanel = actionPanel;
     }
-
-
     }
 

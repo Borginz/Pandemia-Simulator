@@ -6,18 +6,21 @@ import game.view.institutionview.IUpdateView;
 public class InstitutionControl implements IInstitutionControl{
     private IUpdateView viewUpdate;
     private IUpdateParameters cityParameters;
-    private boolean isAgglomerating;
+
+    public void setCityParameters(IUpdateParameters cityParameters) {
+        this.cityParameters = cityParameters;
+    }
 
     public IUpdateView getViewUpdate() {
         return viewUpdate;
     }
+
 
     public IUpdateParameters getCityParameters() {
         return cityParameters;
     }
 
     public InstitutionControl(){
-        isAgglomerating = false;
     }
 
     public void connect(IUpdateView viewUpdate){
@@ -37,8 +40,7 @@ public class InstitutionControl implements IInstitutionControl{
     }
 
     public void stopAgglomeration() {
-        isAgglomerating = false;
-        viewUpdate.setAgglomeration(false);
+
     }
 
     public int getParameter(char type) {

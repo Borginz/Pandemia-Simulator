@@ -354,6 +354,7 @@ public interface IUpdateBar {
     void setDeaths(int quantity);
     void setInfected(int quantity);
     void setImmunized(int quantity);
+    void setPopulation(int quantity);
 }
 ~~~
 
@@ -364,6 +365,7 @@ Método | Objetivo
 `setDeaths` | Configura a variável "deaths" de View com o valor passado por parâmetro, para atualização.
 `setInfected` | Configura a variável "infected" de View com o valor passado por parâmetro, para atualização.
 `setImmunized` | Configura a variável "immunized" de View com o valor passado por parâmetro, para atualização.
+`setPopulation` | Configura a variável "population" de View com o valor passado por parâmetro, para atualização.
 
 
 ### Interface `IKeyboard`

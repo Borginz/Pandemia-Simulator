@@ -6,4 +6,5 @@ public interface IUpdateBar {
     void setDeaths(int quantity);
     void setInfected(int quantity);
     void setImmunized(int quantity);
+    void setPopulation(int quantity);
 }

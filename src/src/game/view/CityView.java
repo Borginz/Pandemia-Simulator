@@ -86,12 +86,14 @@ public class CityView extends JPanel {
     }
 
     public void setMayorPos(int x, int y){
-        panelHolderMayor[mayorIcon.getY()][mayorIcon.getX()].removeAll();
-        mayorIcon.moveX(x);
-        mayorIcon.moveY(y);
-        panelHolderMayor[mayorIcon.getY()][mayorIcon.getX()].add(mayorIcon);
-        mayorIcon.setOccupied(institutionPanels[mayorIcon.getY()][mayorIcon.getX()] != null);
-        SwingUtilities.updateComponentTreeUI(this);
+        if(mayorIcon.getX()+x < sizeX && mayorIcon.getX()+x >= 0 && mayorIcon.getY()+y < sizeY && mayorIcon.getY()+y >= 0) {
+            panelHolderMayor[mayorIcon.getY()][mayorIcon.getX()].removeAll();
+            mayorIcon.moveX(x);
+            mayorIcon.moveY(y);
+            panelHolderMayor[mayorIcon.getY()][mayorIcon.getX()].add(mayorIcon);
+            mayorIcon.setOccupied(institutionPanels[mayorIcon.getY()][mayorIcon.getX()] != null);
+            SwingUtilities.updateComponentTreeUI(this);
+        }
     }
 
     public void setDirectory(String directory){

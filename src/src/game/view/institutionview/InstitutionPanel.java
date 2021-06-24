@@ -12,6 +12,10 @@ public class InstitutionPanel extends JFrame implements IPanel{
     IActionPanel actionPanel;
     IPauseTimer timerControl;
 
+    public IPauseTimer getTimerControl() {
+        return timerControl;
+    }
+
     @Serial
     private static final long serialVersionUID = 5648764998222329459L;
 
@@ -20,7 +24,7 @@ public class InstitutionPanel extends JFrame implements IPanel{
         addWindowListener(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        setSize(350,150);
+        setSize(400,150);
         setResizable(false);
         setLocationRelativeTo(null);
         visual();

@@ -37,7 +37,7 @@ public class Builder implements IBuilder {
         city.setPopulation(population);
 
         view.setPopulation(population);
-
+        city.connect(view.getWarnPanel());
         view.setDirectory(directory);
         city.buildMatrix(sizeX, sizeY);
         view.getCityView().setSize(sizeX, sizeY);
@@ -56,6 +56,7 @@ public class Builder implements IBuilder {
                 }
             }
         }
+        view.getWarnPanel().connect((IPauseTimer) game);
         view.getCityView().setMayor(mayorX, mayorY, directory);
         game.connectComponents(city, view);
         city.startUpdate();

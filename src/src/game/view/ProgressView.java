@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ProgressView extends JPanel {
-    private JProgressBar infection;
-    private JLabel population;
-    private JLabel money;
-    private JLabel deaths;
+    private final JProgressBar infection;
+    private final JLabel population;
+    private final JLabel money;
+    private final JLabel deaths;
 
     public ProgressView(){
         super();
@@ -15,6 +15,7 @@ public class ProgressView extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
 
         infection = new JProgressBar(0,100);
+        infection.setStringPainted(true);
         setInfectionBar(0);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0;
@@ -47,10 +48,11 @@ public class ProgressView extends JPanel {
 
     }
     public void setInfectionBar(int value){
-        infection.setValue(value);
+        infection.setValue(value); //TODO: DELAY
     }
 
     public void setPopulation(int value){
+        infection.setMaximum(value);
         population.setText("População:" + value);
     }
     public void setMoney(int value){

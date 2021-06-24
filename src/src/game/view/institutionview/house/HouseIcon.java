@@ -11,7 +11,7 @@ public class HouseIcon extends InstitutionIcon {
     public HouseIcon(String diretorio){
         super(diretorio + "sprites/house.png");
         this.normal = new ImageIcon(diretorio + "sprites/house.png");
-        this.agglomerating = new ImageIcon(diretorio + "sprites/houseAgglomerating.png");
+        this.agglomerating = new ImageIcon(diretorio + "sprites/houseAgglomerating.gif");
 
     }
 

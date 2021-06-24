@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.Serial;
-import java.lang.Math;
 
 public class View extends JFrame implements IView {
     private final CityView cityView;
@@ -14,6 +13,11 @@ public class View extends JFrame implements IView {
     private final ProgressView progressView;
     private String directory;
     private int population;
+    private final WarningPanel warnPanel;
+
+    public WarningPanel getWarnPanel() {
+        return warnPanel;
+    }
 
     @Serial
     private static final long serialVersionUID = -5552186889584090824L;
@@ -24,6 +28,7 @@ public class View extends JFrame implements IView {
         cityView = new CityView();
         barView = new BarView();
         progressView = new ProgressView();
+        warnPanel = new WarningPanel();
     }
 
     public void visual(){
@@ -75,7 +80,11 @@ public class View extends JFrame implements IView {
                 cityView.setMayorPos(1, 0);
                 break;
             case(' '):
-                cityView.openPanel();
+                try{
+                    cityView.openPanel();
+                } catch (NullPointerException e){
+                    warnPanel.warn('e', "Não há instituições aqui!");
+                }
                 break;
             default:
                 break;
@@ -100,7 +109,7 @@ public class View extends JFrame implements IView {
     }
 
     public void setInfected(int quantity) {
-        progressView.setInfectionBar((int)(((double)quantity/(double)population)*100));
+        progressView.setInfectionBar(quantity);
     }
 
     public void setImmunized(int quantity) {
