@@ -7,20 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.Serial;
 
 public class WarningPanel extends JFrame implements IWarningPanel, IRPauseTimer, WindowListener {
     JLabel title;
     JLabel description;
     IPauseTimer timerControl;
 
-    @Serial
     private static final long serialVersionUID = 5648764998222329459L;
 
     public WarningPanel(){
         super();
         addWindowListener(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         setSize(400,150);
         setResizable(false);

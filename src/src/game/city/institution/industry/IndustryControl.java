@@ -11,7 +11,7 @@ public class IndustryControl extends InstitutionControl {
     public IndustryControl(){
         super();
         occupationPercentage = 100;
-        moneyGenerated = 10;
+        moneyGenerated = 5;
         approvalInfluence = 15;
     }
 

@@ -18,7 +18,7 @@ public class StartGame implements ILevel {
         this.directory = directory;
         StartGamePanel gamePanel = new StartGamePanel();
         gamePanel.connect(this);
-        gamePanel.visual();
+        gamePanel.visual(directory);
     }
 
 

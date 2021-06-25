@@ -5,7 +5,7 @@ import game.view.institutionview.InstitutionView;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.Serial;
+
 
 public class View extends JFrame implements IView {
     private final CityView cityView;
@@ -19,7 +19,6 @@ public class View extends JFrame implements IView {
         return warnPanel;
     }
 
-    @Serial
     private static final long serialVersionUID = -5552186889584090824L;
 
     public View(){

@@ -14,7 +14,11 @@ public class ProgressView extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        infection = new JProgressBar(0,100);
+        UIManager.put("ProgressBar.selectionBackground",Color.RED);
+        infection = new JProgressBar(0,10000);
+        infection.setForeground(Color.RED);
+        infection.setString("Infecção");
+        infection.setFont(infection.getFont().deriveFont(16.0f));
         infection.setStringPainted(true);
         setInfectionBar(0);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -27,6 +31,7 @@ public class ProgressView extends JPanel {
 
         population = new JLabel();
         population.setHorizontalAlignment(JLabel.CENTER);
+        population.setFont(population.getFont().deriveFont(16.0f));
         setPopulation(0);
         constraints.weightx = 0.5;
         constraints.gridy = 1;
@@ -36,12 +41,14 @@ public class ProgressView extends JPanel {
 
         money = new JLabel();
         money.setHorizontalAlignment(JLabel.CENTER);
+        money.setFont(money.getFont().deriveFont(16.0f));
         setMoney(0);
         constraints.gridx = 2;
         add(money, constraints);
 
         deaths = new JLabel();
         deaths.setHorizontalAlignment(JLabel.CENTER);
+        deaths.setFont(deaths.getFont().deriveFont(16.0f));
         setDeaths(0);
         constraints.gridx = 3;
         add(deaths, constraints);
@@ -49,6 +56,7 @@ public class ProgressView extends JPanel {
     }
     public void setInfectionBar(int value){
         infection.setValue(value); //TODO: DELAY
+        infection.setString("Infecção: " + String.format("%.2g%n", ((double)value/infection.getMaximum())*100) + "%");
     }
 
     public void setPopulation(int value){

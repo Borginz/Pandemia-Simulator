@@ -11,7 +11,7 @@ public class ShopControl extends InstitutionControl {
     public ShopControl(){
         super();
         occupationPercentage = 100;
-        moneyGenerated = 10;
+        moneyGenerated = 5;
         approvalInfluence = 30;
     }
 

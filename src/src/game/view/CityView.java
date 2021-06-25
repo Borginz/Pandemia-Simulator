@@ -28,6 +28,7 @@ public class CityView extends JPanel {
 
     JPanel[][] panelHolder;
     JPanel[][] panelHolderMayor;
+    JPanel backPanel;
     JPanel cityPanel;
     JPanel mayorPanel;
 
@@ -48,6 +49,9 @@ public class CityView extends JPanel {
 
     public void assembleView(){
         setLayout(new OverlayLayout(this));
+        backPanel = new JPanel();
+        backPanel.setLayout(new BorderLayout());
+        backPanel.setOpaque(false);
         cityPanel = new JPanel();
         cityPanel.setOpaque(false);
         cityPanel.setLayout(new GridLayout(sizeY,sizeX));
@@ -56,7 +60,7 @@ public class CityView extends JPanel {
         mayorPanel.setLayout(new GridLayout(sizeY,sizeX));
         panelHolder = new JPanel[sizeY][sizeX];
         panelHolderMayor = new JPanel[sizeY][sizeX];
-        setBorder(BorderFactory.createTitledBorder("Cidade"));
+        setBorder(BorderFactory.createLineBorder(Color.GRAY, 5));
 
         for(int y = 0; y < sizeY; y++){
             for(int x = 0; x < sizeX; x++){
@@ -72,10 +76,12 @@ public class CityView extends JPanel {
             panelHolder[i.getPosY()][i.getPosX()].add(i);
         }
 
+        backPanel.add(new PavementIcon(directory), BorderLayout.PAGE_START);
         panelHolderMayor[mayorIcon.getY()][mayorIcon.getX()].add(mayorIcon);
 
         add(mayorPanel);
         add(cityPanel);
+        add(backPanel);
 
     }
 
@@ -103,29 +109,35 @@ public class CityView extends JPanel {
         InstitutionIcon institutionIcon;
         InstitutionView institutionView;
         switch (id) {
-            case ('H') -> {
+            case ('H'): {
                 institutionPanel = new HospitalPanel();
                 institutionIcon = new HospitalIcon(directory);
+                break;
             }
-            case ('S') -> {
+            case ('S'): {
                 institutionPanel = new ShopPanel();
                 institutionIcon = new ShopIcon(directory);
+                break;
             }
-            case ('I') -> {
+            case ('I'): {
                 institutionPanel = new IndustryPanel();
                 institutionIcon = new IndustryIcon(directory);
+                break;
             }
-            case ('B') -> {
+            case ('B'): {
                 institutionPanel = new ButantanPanel();
                 institutionIcon = new ButantanIcon(directory);
+                break;
             }
-            case ('C') -> {
+            case ('C'): {
                 institutionPanel = new HousePanel();
                 institutionIcon = new HouseIcon(directory);
+                break;
             }
-            default -> {
+            default: {
                 institutionPanel = null;
                 institutionIcon = null;
+                break;
             } // TODO: THROW ERROR
         }
         institutionIcon.setPosX(x);

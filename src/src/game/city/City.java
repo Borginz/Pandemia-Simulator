@@ -21,8 +21,6 @@ public class City implements ICity, ActionListener {
     int sizeY;
     int initialPopulation;
     int population;
-    int populationWorkingShop;
-    int populationWorkingIndustry;
     int deaths;
     int immunized;
     int money;
@@ -132,7 +130,6 @@ public class City implements ICity, ActionListener {
             h.hospitalize(quantityDelta/hospitals.size());
         }
         barControl.setInfected(infected);
-        System.out.println(quantityDelta);
     }
 
     public void updateImmunized(int quantityDelta) {
@@ -164,8 +161,8 @@ public class City implements ICity, ActionListener {
     }
 
     private void checkWinLose(){
-        if((double)population/(double)initialPopulation < 0.25){
-            warnPanel.warn('l', "Você deixou 75% de sua população morrer!");
+        if((double)population/(double)initialPopulation < 0.75){
+            warnPanel.warn('l', "Você deixou 25% de sua população morrer!");
         }
         if(money < 0) {
             warnPanel.warn('l', "Você faliu!");

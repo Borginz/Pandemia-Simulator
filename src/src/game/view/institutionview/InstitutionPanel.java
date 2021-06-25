@@ -6,7 +6,6 @@ import game.gameControl.IPauseTimer;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.Serial;
 
 public class InstitutionPanel extends JFrame implements IPanel{
     IActionPanel actionPanel;
@@ -16,14 +15,13 @@ public class InstitutionPanel extends JFrame implements IPanel{
         return timerControl;
     }
 
-    @Serial
     private static final long serialVersionUID = 5648764998222329459L;
 
     public InstitutionPanel(){
         super();
         addWindowListener(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+        setAlwaysOnTop(true);
         setSize(400,150);
         setResizable(false);
         setLocationRelativeTo(null);

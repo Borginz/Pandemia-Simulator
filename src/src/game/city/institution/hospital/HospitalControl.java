@@ -8,7 +8,7 @@ public class HospitalControl extends InstitutionControl {
     int bedsOccupied;
     int bedsTotal;
     int moneyInvested;
-    int bedPrice;
+    double bedPrice;
     int chanceDeath;
     double treatmentRate;
     double deathRate;
@@ -24,7 +24,7 @@ public class HospitalControl extends InstitutionControl {
         super();
         bedsOccupied = 0;
         moneyInvested = 500;
-        bedPrice = 1;
+        bedPrice = 0.5;
         chanceDeath = 2;
         treatmentRate = 0.01;
         deathRate = 0.1;
@@ -43,30 +43,31 @@ public class HospitalControl extends InstitutionControl {
     }
 
     public void hospitalize(int quantity){
-        if(bedsOccupied < bedsTotal)
-            bedsOccupied += quantity;
+        bedsOccupied += quantity;
     }
 
     private void bedsTotalUpdate(){
-        bedsTotal = moneyInvested / bedPrice;
+        bedsTotal = (int)(moneyInvested / bedPrice);
     }
 
-    public void invest(int money){ // TODO: THROW ERROR IF MONEY IS NEGATIVE
+    public void invest(int money){
         moneyInvested += money;
-        treatmentRate += 0.001*money;
         bedsTotalUpdate();
         getCityParameters().updateMoney(-money);
     }
 
     public void update(){
-        if((double)bedsOccupied/(double)bedsTotal < 0.7){
+        if((double)bedsOccupied/(double)bedsTotal < 0.7 && (double)bedsOccupied > 1){
             chanceDeath = 20;
             getCityParameters().updateInfected(-(int)(bedsOccupied*treatmentRate));
             bedsOccupied -= bedsOccupied*treatmentRate;
-        } else {
+        } else if((double)bedsOccupied/(double)bedsTotal >= 0.7 && (double)bedsOccupied/(double)bedsTotal <= 1.0) {
             chanceDeath = 50;
             getCityParameters().updateInfected(-(int)(bedsOccupied*treatmentRate/2));
             bedsOccupied -= bedsOccupied*treatmentRate/2;
+        } else if ((double)bedsOccupied/(double)bedsTotal > 1.0){
+            getCityParameters().updateDeaths(bedsOccupied - bedsTotal);
+            bedsOccupied = bedsTotal;
         }
         int number = random.nextInt(100);
         if(number <= chanceDeath){
