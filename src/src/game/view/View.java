@@ -11,7 +11,6 @@ public class View extends JFrame implements IView {
     private final CityView cityView;
     private final BarView barView;
     private final ProgressView progressView;
-    private String directory;
     private int population;
     private final WarningPanel warnPanel;
 
@@ -31,7 +30,7 @@ public class View extends JFrame implements IView {
     }
 
     public void visual(){
-        setSize(1230, 900);
+        setSize(1000, 750);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -56,7 +55,6 @@ public class View extends JFrame implements IView {
     }
 
     public void setDirectory(String directory){
-        this.directory = directory;
         cityView.setDirectory(directory);
     }
 

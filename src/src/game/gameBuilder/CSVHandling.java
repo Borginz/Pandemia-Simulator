@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class CSVHandling {
     private String dataSource;
@@ -22,7 +23,7 @@ public class CSVHandling {
         return dataSource;
     }
 
-    public void setDataSource(String dataSource) {
+    public void setDataSource(String dataSource) throws IOException {
         this.dataSource = dataSource;
         if (dataSource == null) {
             commands = null;
@@ -35,7 +36,7 @@ public class CSVHandling {
     }
 
     public void setDataExport(String dataExport) {
-        if(dataExport!= null)
+        if (dataExport != null)
             this.dataExport = dataExport;
     }
 
@@ -43,38 +44,32 @@ public class CSVHandling {
         return commands;
     }
 
-    public void exportState(String[] state) {
+    public void exportState(String[] state) throws IOException {
         this.state = state;
         writeCSV();
     }
 
-    private void readCSV() {
-        try {
-            BufferedReader file = new BufferedReader(new FileReader(dataSource));
+    private void readCSV() throws IOException {
+        BufferedReader file = new BufferedReader(new FileReader(dataSource));
 
-            String line = file.readLine();
-            int i = 0;
-            commands = new String[100][];
-            while (line != null) {
-                commands[i] = line.split(",");
-                line = file.readLine();
-                i++;
-            }
-            file.close();
-        } catch (IOException erro) {
-            erro.printStackTrace();
+        String line = file.readLine();
+        ArrayList<String[]> commandsList = new ArrayList<>();
+        while (line != null) {
+            commandsList.add(line.split(","));
+            line = file.readLine();
         }
+        commands = new String[commandsList.size()][];
+        for (int i = 0; i < commandsList.size(); i++) {
+            commands[i] = commandsList.get(i);
+        }
+        file.close();
     }
 
-    private void writeCSV(){
-        try {
-            PrintWriter fileExport = new PrintWriter(new FileWriter(dataExport, true));
-            if (state != null)
-                for (int s = 0; s < state.length; s++)
-                    fileExport.println(state[s]);
-            fileExport.close();
-        }catch(IOException erro){
-            erro.printStackTrace();
-        }
+    private void writeCSV() throws IOException {
+        PrintWriter fileExport = new PrintWriter(new FileWriter(dataExport, true));
+        if (state != null)
+            for (int s = 0; s < state.length; s++)
+                fileExport.println(state[s]);
+        fileExport.close();
     }
 }

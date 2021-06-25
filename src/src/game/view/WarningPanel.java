@@ -55,8 +55,9 @@ public class WarningPanel extends JFrame implements IWarningPanel, IRPauseTimer,
             title.setText("Erro!");
         }
 
-        description.setText(message);
-        timerControl.pauseTimer();
+        description.setText("<html>"+message+"</html>");
+        if(timerControl != null)
+            timerControl.pauseTimer(); // only pauses if the timer has been created
         setVisible(true);
     }
 

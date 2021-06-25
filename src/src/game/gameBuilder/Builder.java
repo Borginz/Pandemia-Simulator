@@ -7,6 +7,8 @@ import game.gameControl.IPauseTimer;
 import game.view.*;
 import game.view.institutionview.*;
 
+import java.io.IOException;
+
 public class Builder implements IBuilder {
     char[][] matrix;
     City city;
@@ -26,7 +28,7 @@ public class Builder implements IBuilder {
         population = 10000;
     }
 
-    public Level[] createLevels(String directory){
+    public Level[] createLevels(String directory) throws IOException, RepeatedComponentsException {
         Level[] levels = new Level[3];
 
         CSVHandling csv = new CSVHandling();
@@ -45,7 +47,7 @@ public class Builder implements IBuilder {
                     if(matrix[Character.getNumericValue(commands[i][0].charAt(0))-1][Character.getNumericValue(commands[i][0].charAt(2))-1] == '\u0000'){
                         matrix[Character.getNumericValue(commands[i][0].charAt(0))-1][Character.getNumericValue(commands[i][0].charAt(2))-1] = commands[i][1].charAt(0);
                     } else {
-                        //TODO: GERAR ERRO
+                        throw new RepeatedComponentsException();
                     }
                 }
             }
