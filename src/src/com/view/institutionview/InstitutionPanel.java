@@ -6,7 +6,7 @@ import com.gameControl.IPauseTimer;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 
-public class InstitutionPanel extends JFrame implements IInstitutionPanel {
+public class InstitutionPanel extends JDialog implements IInstitutionPanel {
     IActionPanel actionPanel;
     IPauseTimer timerControl;
 

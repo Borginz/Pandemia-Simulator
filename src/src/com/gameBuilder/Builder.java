@@ -90,6 +90,7 @@ public class Builder implements IBuilder {
                 }
             }
         }
+        city.connectTimer((IPauseTimer)game);
         view.getWarnPanel().connect((IPauseTimer) game);
         view.setMayor(mayorX, mayorY);
         game.connectComponents(city, view);

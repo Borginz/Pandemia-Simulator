@@ -7,6 +7,7 @@ import com.city.institution.house.HouseControl;
 import com.city.institution.industry.IndustryControl;
 import com.city.institution.shop.ShopControl;
 import com.exceptions.InstitutionUnknownException;
+import com.gameControl.IPauseTimer;
 import com.view.IUpdateBar;
 import com.view.panels.WarningPanel;
 
@@ -58,6 +59,9 @@ public class City implements ICity, ActionListener {
         industries = new ArrayList<>();
     }
 
+    public void connectTimer(IPauseTimer timerControl){
+        warnPanel.connect(timerControl);
+    }
     public void buildMatrix(int sizeX, int sizeY){
         this.sizeX = sizeX;
         this.sizeY = sizeY;

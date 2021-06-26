@@ -56,14 +56,15 @@ public class HospitalControl extends InstitutionControl {
     }
 
     public void update(){
+        chanceDeath = -1;
         if((double)bedsOccupied/(double)bedsTotal < 0.7 && (double)bedsOccupied > 1){
             chanceDeath = 20;
-            getCityParameters().updateInfected(-(int)(bedsOccupied*treatmentRate));
-            bedsOccupied -= bedsOccupied*treatmentRate;
-        } else if((double)bedsOccupied/(double)bedsTotal >= 0.7 && (double)bedsOccupied/(double)bedsTotal <= 1.0) {
-            chanceDeath = 50;
             getCityParameters().updateInfected(-(int)(bedsOccupied*treatmentRate/2));
             bedsOccupied -= bedsOccupied*treatmentRate/2;
+        } else if((double)bedsOccupied/(double)bedsTotal >= 0.7 && (double)bedsOccupied/(double)bedsTotal <= 1.0 && (double)bedsOccupied > 1) {
+            chanceDeath = 50;
+            getCityParameters().updateInfected(-(int)(bedsOccupied*treatmentRate));
+            bedsOccupied -= bedsOccupied*treatmentRate;
         } else if ((double)bedsOccupied/(double)bedsTotal > 1.0){
             getCityParameters().updateDeaths(bedsOccupied - bedsTotal);
             bedsOccupied = bedsTotal;

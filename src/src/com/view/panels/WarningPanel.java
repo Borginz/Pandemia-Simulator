@@ -8,17 +8,19 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class WarningPanel extends JFrame implements IRPauseTimer, WindowListener {
+public class WarningPanel extends JDialog implements IRPauseTimer, WindowListener {
     JLabel title;
     JLabel description;
     IPauseTimer timerControl;
+    int close;
 
     private static final long serialVersionUID = 5648764998222329459L;
 
     public WarningPanel(){
         super();
         addWindowListener(this);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        close = DISPOSE_ON_CLOSE;
         setAlwaysOnTop(true);
 
         setSize(400,150);
@@ -45,22 +47,23 @@ public class WarningPanel extends JFrame implements IRPauseTimer, WindowListener
 
     public void warn(char state, String message) {
         if(state == 'w'){
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            close = EXIT_ON_CLOSE;
             title.setText("Você ganhou!");
         } else if(state == 'l'){
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            close = EXIT_ON_CLOSE;
             title.setText("Você perdeu!");
         } else if(state == 'e'){
-            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            close = DISPOSE_ON_CLOSE;
             title.setText("Erro!");
         } else if(state == 'f'){
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            close = EXIT_ON_CLOSE;
             title.setText("Erro fatal!");
         }
 
         description.setText("<html>"+message+"</html>");
-        if(timerControl != null)
+        if(timerControl != null) {
             timerControl.pauseTimer(); // only pauses if the timer has been created
+        }
         setVisible(true);
     }
 
@@ -80,8 +83,13 @@ public class WarningPanel extends JFrame implements IRPauseTimer, WindowListener
 
     @Override
     public void windowClosed(WindowEvent e) {
-        setVisible(false);
-        timerControl.resumeTimer();
+        if(close == EXIT_ON_CLOSE){
+            dispose();
+            System.exit(0);
+        } else {
+            setVisible(false);
+            timerControl.resumeTimer();
+        }
     }
 
     @Override
