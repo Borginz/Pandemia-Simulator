@@ -50,7 +50,7 @@ Este é o diagrama compondo os componentes do jogo:
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Pacote | `game.gameBuilder`
+Pacote | `com.gameBuilder`
 Autores | `Lucas e Leonardo`
 Interfaces | `IRConnectComponents` <br> `IBuildGame` <br> `IBuilder`
 
@@ -90,16 +90,16 @@ Método | Objetivo
 Interface que conecta a interface IConnectComponents à classe Builder.
 
 ~~~java
-import game.gameControl.IConnectComponents;
+import com.gameControl.IConnectComponents;
 
 public interface IRConnectComponents {
-    void connect(IConnectComponents game);
+    void connect(IConnectComponents com);
 }
 ~~~
 
 Método | Objetivo
 -------| --------
-`connect` | Conecta o parâmetro "game" da classe Builder à interface IConnectComponents.
+`connect` | Conecta o parâmetro "com" da classe Builder à interface IConnectComponents.
 
 
 ## Componente `GameControl`
@@ -111,7 +111,7 @@ Método | Objetivo
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `game.gameControl`
+Classe | `com.gameControl`
 Autores | `Lucas e Leonardo`
 Interfaces | `IConnectComponents` <br> `IPauseTimer` <br> `IRunGame` <br> `IGameApp` <br> `IGame`
 
@@ -196,7 +196,7 @@ public interface IGameApp extends IRunGame, IConnectComponents{
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `game.city`
+Classe | `com.city`
 Autores | `Lucas e Leonardo`
 Interfaces | `IUpdateParameters` <br> `IRUpdateParameters` <br> `IRUpdateBar` <br> `IRUpdateView` <br> `IActionPanel` 
 
@@ -316,14 +316,14 @@ public interface IInstitutionControl extends IRUpdateParameters, IRUpdateView, I
 
 ## Componente `View`
 
-> <Esse componente é responsavel por toda parte gráfica do código, possui um tabuleiro de views especificos, além de um BarView e Prefeito game.view.>
+> <Esse componente é responsavel por toda parte gráfica do código, possui um tabuleiro de views especificos, além de um BarView e Prefeito com.view.>
 
 ![Componente](assets/componente-view.png)
 
 **Ficha Técnica**
 item | detalhamento
 ----- | -----
-Classe | `game.view`
+Classe | `com.view`
 Autores | `Lucas e Leonardo`
 Interfaces | `IUpdateBar` <br> `IUpdateView` <br> `IRPauseTimer` <br> `IRActionPanel` <br> `IKeyboard` 
 

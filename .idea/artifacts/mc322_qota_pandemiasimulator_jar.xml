@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/src/bin/artifacts/mc322_qota_pandemiasimulator_jar</output-path>
     <root id="archive" name="mc322-qota-pandemiasimulator.jar">
       <element id="module-output" name="mc322-qota-pandemiasimulator" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/src/lib/commons-io-2.10.0-tests.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/src/lib/commons-io-2.10.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
