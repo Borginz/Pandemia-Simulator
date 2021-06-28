@@ -2,6 +2,7 @@ package com.gameBuilder;
 
 import com.city.*;
 import com.city.institution.*;
+import com.exceptions.InvalidPositionException;
 import com.exceptions.RepeatedComponentsException;
 import com.gameControl.IConnectComponents;
 import com.gameControl.IPauseTimer;
@@ -29,7 +30,7 @@ public class Builder implements IBuilder {
         population = 10000;
     }
 
-    public Level[] createLevels() throws IOException, RepeatedComponentsException {
+    public Level[] createLevels() throws IOException, RepeatedComponentsException, InvalidPositionException {
         Level[] levels = new Level[3];
 
         CSVReader csv = new CSVReader();
@@ -50,6 +51,8 @@ public class Builder implements IBuilder {
                     } else {
                         throw new RepeatedComponentsException();
                     }
+                } else {
+                    throw new InvalidPositionException();
                 }
             }
             levels[j-1] = new Level(j, matrix, population, sizeX, sizeY);
@@ -67,33 +70,39 @@ public class Builder implements IBuilder {
 
         int mayorX = 0;
         int mayorY = 0;
+
         city = new City();
         view = new View();
 
-        city.connect(view);
+        city.connect(view); // Conecta a interface IUpdateBar para a atualização das barras de progresso
+        city.connectTimer((IPauseTimer)game); // Conecta o timer para o controle do tempo pela cidade
         city.setPopulation(population);
-        view.setPopulation(population);
         city.buildMatrix(sizeX, sizeY);
+
+        view.setPopulation(population);
         view.setCitySize(sizeX, sizeY);
+        view.getWarnPanel().connect((IPauseTimer) game); // Conecta o timer ao painel de avisos, para que o jogo pause a execução caso haja algum aviso.
+
         for(int y = 0; y < sizeY; y++){
             for(int x = 0; x < sizeX; x++){
                 if(matrix[y][x] != '-' && matrix[y][x] != 'P'){
                     InstitutionControl institutionControl = city.insert(x, y, matrix[y][x]);
+                    institutionControl.connect(city); // Conecta a interface IUpdateParameters ao Control para que este possa atualizar métodos da cidade.
+
                     InstitutionView institutionView = view.insert(x, y, matrix[y][x]);
-                    institutionControl.connect(city);
-                    institutionControl.connect(institutionView.getInstitutionIcon());
-                    institutionView.getInstitutionPanel().connect((IPauseTimer) game);
-                    institutionView.getInstitutionPanel().connect(institutionControl);
+                    institutionView.getInstitutionPanel().connect((IPauseTimer) game); // Conecta o timer ao painel para que o jogo não continue quando o usuário queira mexer em um parâmetro.
+                    institutionView.getInstitutionPanel().connect(institutionControl); // Conecta o Control ao painel para permitir que o usuário mude parâmetros através do painel da instituição.
+
+                    institutionControl.connect(institutionView.getInstitutionIcon()); // Conecta o icon ao Control para que o icon seja atualizado caso o control mande.
                 } else if(matrix[y][x] == 'P'){
                     mayorX = x;
                     mayorY = y;
                 }
             }
         }
-        city.connectTimer((IPauseTimer)game);
-        view.getWarnPanel().connect((IPauseTimer) game);
         view.setMayor(mayorX, mayorY);
-        game.connectComponents(city, view);
+        game.connectComponents(city, view); // conecta o city e o view gerados pelo Builder ao game para a execução.
+
         city.startUpdate();
     }
 

@@ -17,12 +17,80 @@ economicamente ou que este não seja destituído por uma aprovação baixa.
 # Vídeos do Projeto
 
 ## Vídeo da Prévia
-> [Link para o vídeo](https://drive.google.com/file/d/1Jy8ckKvVrpeEhBOrAJIAfLVy8HdCP8GC/view?usp=sharing)
+> [Link para o vídeo](assets/Pandemia%20Simulator%20-%20Prévia.mp4)
+
+## Vídeo do Jogo
+> [Link para o vídeo](assets/Pandemia%20Simulator%20-%20Jogo.mp4)
 
 # Slides do Projeto
 
 ## Slides da Prévia
-> [Link para os slides](https://drive.google.com/file/d/1ruOlYLg5hwbdd_i3FqVQaLBlXTQcqdt0/view?usp=sharing)
+> [Link para os slides](assets/Pandemia%20Simulator%20-%20Prévia.pdf)
+
+## Slides da Apresentação Final
+> [Link para os slides](assets/Pandemia%20Simulator%20-%20Jogo.pdf)
+
+## Relatório de Evolução
+
+> Durante o projeto encontramos muita dificuldade em relação à nossa arquitetura, de início tentamos usar o MVC ( Model-View-Controller), mas por nao 
+> ter muita familiariedade  optamos de apenas nos basear nessa arquitetura e adptar para o nosso problema. Após semanas chegamos em um primeiro design do nosso projeto
+> , mas que após o início da escrita do código tivemos que mudar para melhor leitura do código. Encontramos dificuldades em relação às interfaces e por isso 
+> a mudança de diagrama. Aprendemos que o tempo que gastamos pensando na arquitetura nos ajudou muito futaramente em relação a todo o código, pois qualquer problema que acontecia no código,
+> resolveríamos facilmente, pois saberiámos exatamente onde ele se encontrava devido à nossa arquitetura. Isso fica muito evidente na nossa estrutura de pastas: todas as nossas
+> classes estão na pasta "com", em que estão separadas as classes que controlam os parâmetros em "city" e as que controlam a visualização em "view". A construção do jogo, a escolha de fases e a execução 
+> estão, respectivamente, nas pastas "gameBuilder", "gameStart" e "gameControl".
+
+# Destaques de Código
+
+> Nosso método buildGame da classe Builder é responsável por gerar os objetos City e View e conectar as interfaces entre eles. Utilizamos a sobrecarga de métodos nos métodos connect() para simplificar o código,
+> e utilizamos polimorfismo na criação das instituições lidas da matriz para a atribuição dos parâmetros e as conexões necessárias para o funcionamento do jogo.
+
+~~~java
+public void buildGame(Level level){
+        ...
+
+                    city.connect(view); // Conecta a interface IUpdateBar para a atualização das barras de progresso
+                    city.connectTimer((IPauseTimer)game); // Conecta o timer para o controle do tempo pela cidade
+                    city.setPopulation(population);
+                    city.buildMatrix(sizeX, sizeY);
+            
+                    view.setPopulation(population);
+                    view.setCitySize(sizeX, sizeY);
+                    view.getWarnPanel().connect((IPauseTimer) game); // Conecta o timer ao painel de avisos, para que o jogo pause a execução caso haja algum aviso.
+            
+                    for(int y = 0; y < sizeY; y++){
+                    for(int x = 0; x < sizeX; x++){
+                    if(matrix[y][x] != '-' && matrix[y][x] != 'P'){
+                    InstitutionControl institutionControl = city.insert(x, y, matrix[y][x]);
+                    institutionControl.connect(city); // Conecta a interface IUpdateParameters ao Control para que este possa atualizar métodos da cidade.
+            
+                    InstitutionView institutionView = view.insert(x, y, matrix[y][x]);
+                    institutionView.getInstitutionPanel().connect((IPauseTimer) game); // Conecta o timer ao painel para que o jogo não continue quando o usuário queira mexer em um parâmetro.
+                    institutionView.getInstitutionPanel().connect(institutionControl); // Conecta o Control ao painel para permitir que o usuário mude parâmetros através do painel da instituição.
+            
+                    institutionControl.connect(institutionView.getInstitutionIcon()); // Conecta o icon ao Control para que o icon seja atualizado caso o control mande.
+                } else if(matrix[y][x] == 'P'){
+                    mayorX = x;
+                    mayorY = y;
+                }
+            }
+        }
+        view.setMayor(mayorX, mayorY);
+        game.connectComponents(city, view); // conecta o city e o view gerados pelo Builder ao game para a execução.
+
+        city.startUpdate();
+        }
+~~~
+
+# Conclusões e Trabalhos Futuros
+
+> É, possível, dizer que atendemos aos objetivos propostos do trabalho como: apresentar uma boa arquitetura do sistema, explorar os princípios de orientação a objeto com o grande uso 
+> de polimorfimo e também de interface, utilização de plano de exceções, além de uma interface gráfica totalmente produzida pelo nosso grupo. Sentimos muito pela falta de tempo, pois 
+> gostaríamos de no futuro acrescentar novas instituíções em nosso projeto, o que levaria a colocar novos algoritmos e novas relações entre nossas instituíções, por exemplo, manifestações
+>  que poderiam ocorrer, oferta de vacina de países diferentes (com uma chance da vacina nao ser funcional), uma inserção de um aeroporto na cidade ou até mesmo estádios pelo mapa representando o lazer 
+> da população. Todas essas atualizações poderiam ser facilmente implementadas devido a nossa organização de código, com isso aprendemos o grande valor que uma organização tem para o futuro,
+> ou seja, nossa arquitetura é a grande responsável da facilidade da expansão do nosso jogo.
+
 
 # Documentação dos Componentes
 
@@ -100,6 +168,46 @@ public interface IRConnectComponents {
 Método | Objetivo
 -------| --------
 `connect` | Conecta o parâmetro "com" da classe Builder à interface IConnectComponents.
+
+
+## Componente `GameStart`
+
+> Esse componente é responsável por gerar o painel de escolha do nível do jogo e executar o resto com base nessa escolha.
+
+![Componente](assets/componente-gamestart.png)
+
+**Ficha Técnica**
+item | detalhamento
+----- | -----
+Pacote | `com.gameStart`
+Autores | `Lucas e Leonardo`
+Interfaces | `ILevels`
+
+### Interfaces
+
+Interfaces associadas a esse componente:
+
+![Diagrama Interfaces](assets/interfaces-gamestart.png)
+
+
+## Detalhamento das Interfaces
+
+
+### Interface `ILevels`
+
+Interface que permite a escolha de level para o gameStart.
+
+~~~java
+package com.gameStart;
+
+public interface ILevel {
+    void chooseLevel(int level);
+}
+~~~
+
+Método | Objetivo
+-------| --------
+`chooseLevel` | Método chamado pelo painel de escolha do level para executar o resto do jogo.
 
 
 ## Componente `GameControl`
@@ -227,6 +335,7 @@ public interface IUpdateParameters {
     void updateInfected(int quantityDelta);
     void updateImmunized(int quantityDelta);
     void updateDeaths(int quantityDelta);
+    int getPopulationActive();
 }
 ~~~
 
@@ -237,6 +346,7 @@ Método | Objetivo
 `updateInfected` | Método que permite a atualização do parâmetro Infected de City pelo InstitutionView.
 `updateImmunized` | Método que permite a atualização do parâmetro Immunized de City pelo InstitutionView.
 `updateDeaths` | Método que permite a atualização do parâmetro Deaths de City pelo InstitutionView.
+`getPopulationActive` | Método que retorna a população ativa que pode ser infectada.
 
 
 ### Interface `IRUpdateBar`
@@ -449,16 +559,11 @@ Método | Objetivo
 
 Classe | Descrição
 ----- | -----
-FileRead | Engloba todas as exceções de leitura não aceitas.
-FileNotFound | Indica que o arquivo nao foi achado.
-InvalidFormat | Indica que o arquivo esta no formato inválido.
-IconRead | Engloba todas as exceções de leitura de imagens.
-NameRead | Engloba todas as exceções de nomes nao aceitas.
-InvalidCharacter | Indica um caracter inválido.
-NameTooLong | Indica um nome muito grande.
-NullName | Indica um nome vazio.
+View | Engloba todas as exceções ocorridas na visualização do jogo.
+InstitutionUnknown | Indica um caractere de instituição inexistente na leitura do CSV.
+NullPointerException | Indica que o arquivo não existe ou o caminho está errado.
+City | Engloba todas as exceções ocorridas na criação dos controladores de parâmetros para cada instituição.
 GameBuilder | Engloba todas as exceções de construção.
 InvalidPosition | Indica uma posição inválida.
-TwoOnSamePosition | Indica que há a tentativa dois objetos numa posição.
-InvalidInstitution | Indica uma instituição inexistente.
-InvalidInstitutionQuantity | Indica uma quantidade de instituição inválida.
+RepeatedComponents | Indica que há a tentativa de inserir dois objetos numa posição.
+IOException | Indica uma falha na leitura do arquivo CSV.

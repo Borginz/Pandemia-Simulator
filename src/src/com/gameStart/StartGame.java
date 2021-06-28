@@ -1,5 +1,6 @@
 package com.gameStart;
 
+import com.exceptions.InvalidPositionException;
 import com.gameBuilder.Builder;
 import com.gameBuilder.IBuilder;
 import com.gameBuilder.Level;
@@ -44,6 +45,8 @@ public class StartGame implements ILevel {
             warningPanel.warn('f', "Arquivo essencial ao programa não lido corretamente.");
         } catch(RepeatedComponentsException e){
             warningPanel.warn('f', "Mais de uma componente na mesma posição do CSV: seu csv está correto?");
+        } catch(InvalidPositionException e){
+            warningPanel.warn('f', "Posição inválida: seu CSV não contém algo fora dos limites do tamanho do tabuleiro?");
         }
     }
 
